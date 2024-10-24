@@ -12,18 +12,24 @@ class WeatherRepository2(
     private val openWeatherApi: OpenWeatherApi,
 ) : KoinComponent, WeatherRepositoryInterface {
 
-    override suspend fun fetchWeather(city: String): Flow<Resource<WeatherResultDomain?>> {
-        TODO("Not yet implemented")
-    }
+    override suspend fun fetchWeather(city: String): Flow<Resource<WeatherResultDomain?>> =
+        fetchWeatherForAll(lat = null, lon = null, city = city)
 
-    override suspend fun fetchWeather(
-        lat: Double,
-        lon: Double
-    ): Flow<Resource<WeatherResultDomain?>> {
+    override suspend fun fetchWeather(lat: Double, lon: Double): Flow<Resource<WeatherResultDomain?>> =
+        fetchWeatherForAll(lat = lat, lon = lon, city = null)
+
+    private suspend fun fetchWeatherForAll(lat: Double?, lon: Double?, city:String?) : Flow<Resource<WeatherResultDomain?>> {
         return flow {
             emit(Resource.Loading())
-            val response: WeatherResultVO = openWeatherApi.fetchWeather(lat, lon)
-            val domain = response.toDomain()
+
+            val response: WeatherResultVO? = if (city != null) {
+                openWeatherApi.fetchWeather(city)
+            } else if (lat != null && lon != null) {
+                openWeatherApi.fetchWeather(lat, lon)
+            } else {
+                null
+            }
+            val domain = response?.toDomain()
 
             emit(Resource.Success(domain))
         }
