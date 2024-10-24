@@ -7,12 +7,12 @@ plugins {
 }
 
 android {
-    namespace = "com.example.weather_app"
+    namespace = "com.android.ubo.androidweatherubo"
     compileSdk = 34
 
     defaultConfig {
-        applicationId = "com.example.weather_app"
-        minSdk = 26
+        applicationId = "com.android.ubo.androidweatherubo"
+        minSdk = 33
         targetSdk = 34
         versionCode = 1
         versionName = "1.0"
@@ -43,7 +43,7 @@ android {
         compose = true
     }
     composeOptions {
-        kotlinCompilerExtensionVersion = "1.5.1"
+        kotlinCompilerExtensionVersion = "1.5.15"
     }
     packaging {
         resources {

@@ -29,9 +29,12 @@ class WeatherRepository2(
             } else {
                 null
             }
-            val domain = response?.toDomain()
-
-            emit(Resource.Success(domain))
+            val domain:  WeatherResultDomain? =  response?.toDomain()
+            if (domain != null) {
+                emit(Resource.Success(domain))
+            } else {
+                emit(Resource.Error(Exception("NO DATA")))
+            }
         }
     }
 }
